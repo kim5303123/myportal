@@ -2,6 +2,8 @@ package himedia.myportal.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	@Autowired
 	private BoardService boardServiceImpl;
 	
@@ -36,7 +39,8 @@ public class BoardController {
 		//	로그인 하지 않은 사용자는 홈페이지로 리다이렉트
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if (authUser == null) {
-			System.err.println("로그인 사용자 아님!");
+//			System.err.println("로그인 사용자 아님!");
+			logger.debug("로그인 사용자 아님");
 			return "redirect:/";
 		}
 		return "board/write";
@@ -48,7 +52,8 @@ public class BoardController {
 			HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if (authUser == null) {
-			System.err.println("로그인 사용자 아님!");
+//			System.err.println("로그인 사용자 아님!");
+			logger.debug("로그인 사용자 아님");
 			return "redirect:/";
 		}
 		
@@ -74,7 +79,8 @@ public class BoardController {
 		HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if (authUser == null) {
-			System.err.println("로그인 사용자 아님!");
+//			System.err.println("로그인 사용자 아님!");
+			logger.debug("로그인 사용자 아님");
 			return "redirect:/";
 		}
 		BoardVo vo = boardServiceImpl.getContent(no);
@@ -88,14 +94,16 @@ public class BoardController {
 			HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if (authUser == null) {
-			System.err.println("로그인 사용자 아님!");
+//			System.err.println("로그인 사용자 아님!");
+			logger.debug("로그인 사용자 아님");
 			return "redirect:/";
 		}
 		
 		BoardVo vo = boardServiceImpl.getContent(updateVo.getNo());
 		
 		if (vo.getUserNo() != authUser.getNo()) {
-			System.err.println("게시물 작성자 아님!");
+//			System.err.println("게시물 작성자 아님!");
+			logger.debug("게시물 작성자 아님");
 			return "redirect:/board";
 		}
 		
@@ -112,7 +120,8 @@ public class BoardController {
 			HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if (authUser == null) {
-			System.err.println("로그인 사용자 아님!");
+//			System.err.println("로그인 사용자 아님!");
+			logger.debug("로그인 사용자 아님");
 			return "redirect:/";
 		}
 		
